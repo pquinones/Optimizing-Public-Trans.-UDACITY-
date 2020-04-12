@@ -68,7 +68,7 @@ async def transform(stations):
                 transformed_station.line = "blue"
             elif(station.green):
                 transformed_station.line = "green"
-            else
+            else:
                 transformed_station.line = "None"
 
             await out_topic.send(key=transformed_station.station_id, value=transformed_station)
