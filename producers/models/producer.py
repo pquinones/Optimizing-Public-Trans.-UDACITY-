@@ -79,8 +79,8 @@ class Producer:
                 future.result()
                 print(f"Topic {self.topic_name} created!")
             except Exception as e:
-                print(f"Failed to create topic {self.topic_name}: {e}")
-                
+                print(f"Failed to create topic {self.topic_name}")
+
 
     def time_millis(self):
         return int(round(time.time() * 1000))
