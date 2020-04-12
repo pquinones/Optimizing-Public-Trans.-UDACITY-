@@ -76,7 +76,7 @@ class Weather(Producer):
         self._set_weather(month)
 
 
-        logger.info(f"Avro Schemas Type: {type(Weather.value_schema)}" )
+        logger.info(f"Avro Schemas Type: {Weather.value_schema}" )
         #
         # TODO: Complete the function by posting a weather event to REST Proxy. Make sure to
         # specify the Avro schemas and verify that you are using the correct Content-Type header.
@@ -102,13 +102,14 @@ class Weather(Producer):
                    #
                    # TODO: Provide key schema, value schema, and records
                    #
-                   "value_schema": Weather.value_schema,
-                   "key_schema": Weather.key_schema,
+                   "value_schema": json.dumps(Weather.value_schema),
+                   "key_schema": json.dumps(Weather.key_schema),
                    "records": [
                          {
+                            "key": {"timestamp": self.time_millis()},
                             "value": {
-                                "temperature": self.temp,
-                                "status": self.status.name
+                                "temperature": float(self.temp),
+                                "status": str(self.status.name)
                             }
                         }
                    ]
