@@ -79,7 +79,7 @@ class Producer:
                 future.result()
                 print(f"Topic {self.topic_name} created!")
             except Exception as e:
-                print(f"Failed to create topic {self.topic_name}")
+                print(f"Topic already created! {self.topic_name}")
 
 
     def time_millis(self):

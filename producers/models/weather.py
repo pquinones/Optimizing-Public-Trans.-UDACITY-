@@ -74,9 +74,6 @@ class Weather(Producer):
 
     def run(self, month):
         self._set_weather(month)
-
-
-        logger.info(f"Avro Schemas Type: {Weather.value_schema}" )
         #
         # TODO: Complete the function by posting a weather event to REST Proxy. Make sure to
         # specify the Avro schemas and verify that you are using the correct Content-Type header.
