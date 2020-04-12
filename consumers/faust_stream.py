@@ -56,7 +56,8 @@ table = app.Table(
 
 @app.agent(topic)
 async def transform(stations):
-    async for station in stations.group_by(Station.station_id):
+    async for station in stations:
+
             transformed_station = TransformedStation(
                 station_id = station.station_id,
                 station_name = station.station_name,
@@ -66,7 +67,7 @@ async def transform(stations):
 
             table[station.station_id] = transformed_station
 
-            await out_topic.send(key=str(transformed_station.station_id), value=transformed_station)
+            await out_topic.send(key=str(station.station_id), value=transformed_station)
 
 
 if __name__ == "__main__":
