@@ -75,6 +75,8 @@ class Weather(Producer):
     def run(self, month):
         self._set_weather(month)
 
+
+        logger.info(f"Avro Schemas Type: {type(self.value_schema)}" )
         #
         # TODO: Complete the function by posting a weather event to REST Proxy. Make sure to
         # specify the Avro schemas and verify that you are using the correct Content-Type header.
@@ -92,7 +94,9 @@ class Weather(Producer):
            # TODO: What Headers need to bet set?
            #
            #
-           headers={"Content-Type": "application/vnd.kafka.avro.v2+json"},
+           headers={
+               "Content-Type": "application/vnd.kafka.avro.v2+json"
+           },
            data=json.dumps(
                {
                    #
@@ -101,7 +105,7 @@ class Weather(Producer):
                    "value_schema": self.value_schema,
                    "key_schema": self.key_schema,
                    "records": [
-                        {
+                         {
                             "value": {
                                 "temperature": self.temp,
                                 "status": self.status.name
@@ -109,9 +113,15 @@ class Weather(Producer):
                         }
                    ]
                }
-           ),
+           )
         )
-        resp.raise_for_status()
+        
+        try:
+            resp.raise_for_status()
+        except:
+            print(f"Failed to send data to REST Proxy {json.dumps(resp.json(), indent=2)}")
+
+        print(f"Sent data to REST Proxy {json.dumps(resp.json(), indent=2)}")
 
         logger.debug(
             "sent weather data to kafka, temp: %s, status: %s",
