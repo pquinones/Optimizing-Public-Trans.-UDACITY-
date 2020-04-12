@@ -56,8 +56,9 @@ def execute_statement():
     # Ensure that a 2XX status code was returned
     try:
         resp.raise_for_status()
+        logging.info(f"Resp: {json.dumps(resp.json(), indent=2)}")
     except:
-        print(f"Failed to send data to KSQL {json.dumps(resp.json(), indent=2)}")
+        logger.info(f"Failed to send data to KSQL {json.dumps(resp.json(), indent=2)}")
 
 
 if __name__ == "__main__":
