@@ -21,6 +21,8 @@ class Station(Producer):
     #
     value_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/arrival_value.json")
 
+
+
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
         self.name = name
         station_name = (
@@ -46,6 +48,7 @@ class Station(Producer):
             num_replicas=1
         )
 
+
         self.station_id = int(station_id)
         self.color = color
         self.dir_a = direction_a
@@ -63,6 +66,8 @@ class Station(Producer):
         #
         #
         #logger.info("arrival kafka integration incomplete - skipping")
+        #logger.info(f"Station Value Schema: {self.producer.value_schema)}")
+
         self.producer.produce(
            topic=self.topic_name,
            key={"timestamp": self.time_millis()},
