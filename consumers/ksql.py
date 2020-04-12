@@ -22,16 +22,10 @@ KSQL_URL = "http://localhost:8088"
 #       Make sure to set the value format to JSON
 
 KSQL_STATEMENT = """
-CREATE TABLE turnstile (
-    station_id INT,
-    station_name INT,
-    line VARCHAR
-
-) WITH (
-    KAFKA_TOPIC='chicago.system.turnstiles.ohare',
-    VALUE_FORMAT='AVRO'
-    KEY='station_id'
-);
+CREATE TABLE turnstile
+  WITH (KAFKA_TOPIC='chicago.system.turnstiles.ohare',
+        VALUE_FORMAT='AVRO',
+        KEY='station_id');
 
 CREATE TABLE turnstile_summary
 WITH ( VALUE_FORMAT='JSON') AS
