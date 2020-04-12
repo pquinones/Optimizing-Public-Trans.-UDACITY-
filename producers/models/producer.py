@@ -92,7 +92,8 @@ class Producer:
         # TODO: Write cleanup code for the Producer here
         #
         #
-        self.producer.flush()
+        if self.producer is not None:
+            self.producer.flush()
 
 
     def get_keys(self):

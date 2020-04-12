@@ -39,7 +39,7 @@ out_topic = app.topic("chicago.faust.stations.transformed", partitions=1)
 # TODO: Define a Faust Table
 table = app.Table(
    "chicago_stations_transformed_table",
-   default=TransformedStation,
+   default=int,
    partitions=1,
    changelog_topic=out_topic,
 )
@@ -56,20 +56,15 @@ table = app.Table(
 
 @app.agent(topic)
 async def transform(stations):
-    async for station in stations.group_by(Station.stop_id):
+    async for station in stations.group_by(Station.station_id):
             transformed_station = TransformedStation()
 
             transformed_station.station_id = station.station_id
             transformed_station.station_name = station.station_name
             transformed_station.order = station.order
-            if(station.red):
-                transformed_station.line = "red"
-            elif(station.blue):
-                transformed_station.line = "blue"
-            elif(station.green):
-                transformed_station.line = "green"
-            else:
-                transformed_station.line = "None"
+            transformed_station.line = "red" if station.red else "blue" if station.blue else "green" if station.green else "None"
+
+            table[station.station_id] = transformed_station
 
             await out_topic.send(key=string(transformed_station.station_id), value=transformed_station)
 
