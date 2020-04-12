@@ -71,7 +71,7 @@ async def transform(stations):
             else:
                 transformed_station.line = "None"
 
-            await out_topic.send(key=transformed_station.station_id, value=transformed_station)
+            await out_topic.send(key=string(transformed_station.station_id), value=transformed_station)
 
 
 if __name__ == "__main__":
