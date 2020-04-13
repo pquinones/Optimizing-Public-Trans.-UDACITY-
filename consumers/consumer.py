@@ -3,7 +3,7 @@ import logging
 
 import confluent_kafka
 from confluent_kafka import Consumer
-from confluent_kafka.avro import AvroConsumer
+from confluent_kafka.avro import AvroConsumer, CachedSchemaRegistryClient
 from confluent_kafka.avro.serializer import SerializerError
 from tornado import gen
 
@@ -51,10 +51,16 @@ class KafkaConsumer:
             self.broker_properties["SCHEMA_REGISTRY_URL"] = "http://localhost:8081"
             self.schema_registry = CachedSchemaRegistryClient(self.broker_properties.get("SCHEMA_REGISTRY_URL"))
             self.consumer = AvroConsumer(
-                    config={"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL")},
+                    config={
+                        "bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL"),
+                        "group.id": self.broker_properties.get("group.id")
+                    },
                     schema_registry=self.schema_registry)
         else:
-            self.consumer = Consumer({"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL")})
+            self.consumer = Consumer( {
+                         "bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL"),
+                         "group.id": self.broker_properties.get("group.id")
+                         })
 
         #
         #
