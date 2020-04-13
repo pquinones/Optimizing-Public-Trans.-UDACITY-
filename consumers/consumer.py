@@ -54,7 +54,7 @@ class KafkaConsumer:
                     config={"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL"},
                     schema_registry=self.schema_registry)
         else:
-            self.consumer = Consumer({"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL"})
+            self.consumer = Consumer({"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL")})
 
         #
         #
