@@ -52,7 +52,7 @@ class Producer:
 
         # TODO: Configure the AvroProducer
         self.producer = AvroProducer(
-            {"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL"},
+            {"bootstrap.servers": self.broker_properties.get("KAFKA_BROKER_URL")},
             schema_registry=self.schema_registry,
             default_key_schema=self.key_schema,
             default_value_schema=self.value_schema
