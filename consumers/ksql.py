@@ -40,7 +40,7 @@ def execute_statement():
     if topic_check.topic_exists("TURNSTILE_SUMMARY") is True:
         return
 
-    logging.debug("executing ksql statement...")
+    logging.info("executing ksql statement...")
 
     resp = requests.post(
         f"{KSQL_URL}/ksql",
@@ -62,4 +62,6 @@ def execute_statement():
 
 
 if __name__ == "__main__":
+    logging.info("executing ksql statement...")
     execute_statement()
+    logging.info("executed ksql statement...")
